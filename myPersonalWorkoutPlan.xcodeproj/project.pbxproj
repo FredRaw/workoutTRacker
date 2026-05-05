@@ -8,6 +8,8 @@
 
 /* Begin PBXFileReference section */
 		EE6B299C2FAA1E0D00A57548 /* myPersonalWorkoutPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myPersonalWorkoutPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE6B29B32FAA4C2F00A57548 /* WorkoutAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAnalyticsTests.swift; sourceTree = "<group>"; };
+		EE6B29B42FAA4C2F00A57548 /* SessionTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTemplateTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,6 +36,7 @@
 			children = (
 				EE6B299E2FAA1E0D00A57548 /* myPersonalWorkoutPlan */,
 				EE6B299D2FAA1E0D00A57548 /* Products */,
+				EE6B29B22FAA4C2F00A57548 /* myPersonalWorkoutPlanTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +46,15 @@
 				EE6B299C2FAA1E0D00A57548 /* myPersonalWorkoutPlan.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EE6B29B22FAA4C2F00A57548 /* myPersonalWorkoutPlanTests */ = {
+			isa = PBXGroup;
+			children = (
+				EE6B29B32FAA4C2F00A57548 /* WorkoutAnalyticsTests.swift */,
+				EE6B29B42FAA4C2F00A57548 /* SessionTemplateTests.swift */,
+			);
+			path = myPersonalWorkoutPlanTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
