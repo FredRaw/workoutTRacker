@@ -6,10 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EE6B29B62FAA4D7D00A57548 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = EE6B29B52FAA4D7D00A57548 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		EE6B299C2FAA1E0D00A57548 /* myPersonalWorkoutPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = myPersonalWorkoutPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE6B29B32FAA4C2F00A57548 /* WorkoutAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutAnalyticsTests.swift; sourceTree = "<group>"; };
 		EE6B29B42FAA4C2F00A57548 /* SessionTemplateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTemplateTests.swift; sourceTree = "<group>"; };
+		EE6B29B52FAA4D7D00A57548 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -37,6 +42,7 @@
 				EE6B299E2FAA1E0D00A57548 /* myPersonalWorkoutPlan */,
 				EE6B299D2FAA1E0D00A57548 /* Products */,
 				EE6B29B22FAA4C2F00A57548 /* myPersonalWorkoutPlanTests */,
+				EE6B29B52FAA4D7D00A57548 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +127,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE6B29B62FAA4D7D00A57548 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
