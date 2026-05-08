@@ -44,4 +44,29 @@ struct WorkoutAnalyticsTests {
         #expect(filtered.count == 1)
         #expect(filtered.first?.name == "Lower")
     }
+
+    @Test
+    func trackingModeFlagsAreConsistent() {
+        #expect(ExerciseTrackingMode.weight.usesWeight)
+        #expect(!ExerciseTrackingMode.weight.usesTime)
+        #expect(ExerciseTrackingMode.weight.showsRepsInCreation)
+
+        #expect(!ExerciseTrackingMode.time.usesWeight)
+        #expect(ExerciseTrackingMode.time.usesTime)
+        #expect(!ExerciseTrackingMode.time.showsRepsInCreation)
+
+        #expect(ExerciseTrackingMode.both.usesWeight)
+        #expect(ExerciseTrackingMode.both.usesTime)
+        #expect(!ExerciseTrackingMode.both.showsRepsInCreation)
+    }
+
+    @Test
+    func exerciseSummariesReflectTrackingMode() {
+        let weighted = WorkoutExercise(exerciseName: "Bench", sets: 3, reps: 5, weight: 80, trackingMode: .weight)
+        let timed = WorkoutExercise(exerciseName: "Plank", sets: 4, reps: 1, weight: 0, durationSeconds: 45, trackingMode: .time)
+
+        #expect(weighted.historySummary.contains("80.0 kg"))
+        #expect(timed.historySummary.contains("45 sec"))
+        #expect(weighted.plannedSummary.contains("Rest"))
+    }
 }

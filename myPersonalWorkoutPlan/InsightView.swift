@@ -156,13 +156,6 @@ private struct ExerciseHistoryRow: View {
     }
 
     private var exerciseSummary: String {
-        switch exercise.trackingMode {
-        case .weight:
-            return "\(exercise.sets)x\(exercise.reps) @ \(String(format: "%.1f", exercise.weight)) kg"
-        case .time:
-            return "\(exercise.sets)x\(exercise.reps) • \(exercise.durationSeconds) sec"
-        case .both:
-            return "\(exercise.sets)x\(exercise.reps) @ \(String(format: "%.1f", exercise.weight)) kg • \(exercise.durationSeconds) sec"
-        }
+        exercise.historySummary
     }
 }

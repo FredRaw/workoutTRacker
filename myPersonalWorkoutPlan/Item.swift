@@ -13,6 +13,8 @@ final class WorkoutSession {
     var date: Date
     var name: String
     var notes: String
+    var statusRawValue: String
+    var completedDurationSeconds: Int
 
     @Relationship(deleteRule: .cascade, inverse: \WorkoutExercise.session)
     var exercises: [WorkoutExercise]
@@ -21,16 +23,25 @@ final class WorkoutSession {
         date: Date = .now,
         name: String,
         notes: String = "",
+        status: SessionStatus = .planned,
+        completedDurationSeconds: Int = 0,
         exercises: [WorkoutExercise] = []
     ) {
         self.date = date
         self.name = name
         self.notes = notes
+        self.statusRawValue = status.rawValue
+        self.completedDurationSeconds = completedDurationSeconds
         self.exercises = exercises
     }
 
     var estimatedVolume: Double {
         exercises.reduce(0) { $0 + $1.estimatedVolume }
+    }
+
+    var status: SessionStatus {
+        get { SessionStatus(rawValue: statusRawValue) ?? .planned }
+        set { statusRawValue = newValue.rawValue }
     }
 }
 
@@ -141,6 +152,11 @@ final class TemplateExercise {
     }
 }
 
+enum SessionStatus: String, CaseIterable {
+    case planned
+    case completed
+}
+
 enum ExerciseTrackingMode: String, CaseIterable, Identifiable {
     case weight
     case time
@@ -154,6 +170,93 @@ enum ExerciseTrackingMode: String, CaseIterable, Identifiable {
         case .time: return "Time"
         case .both: return "Both"
         }
+    }
+
+    var usesWeight: Bool {
+        self == .weight || self == .both
+    }
+
+    var usesTime: Bool {
+        self == .time || self == .both
+    }
+
+    var showsRepsInCreation: Bool {
+        self == .weight
+    }
+}
+
+extension WorkoutExercise {
+    var historySummary: String {
+        switch trackingMode {
+        case .weight:
+            return "\(sets)x\(reps) @ \(String(format: "%.1f", weight)) kg"
+        case .time:
+            return "\(sets)x\(reps) • \(durationSeconds) sec"
+        case .both:
+            return "\(sets)x\(reps) @ \(String(format: "%.1f", weight)) kg • \(durationSeconds) sec"
+        }
+    }
+
+    var plannedSummary: String {
+        "Planned: \(historySummary) • Rest \(restSeconds)s"
+    }
+}
+
+extension WorkoutSession {
+    var completedDurationText: String {
+        guard completedDurationSeconds > 0 else {
+            return ""
+        }
+
+        let hours = completedDurationSeconds / 3600
+        let minutes = (completedDurationSeconds % 3600) / 60
+        let seconds = completedDurationSeconds % 60
+
+        if hours > 0 {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        }
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
+
+    func asTemplate() -> SessionTemplate {
+        SessionTemplate(
+            name: name,
+            notes: notes,
+            exercises: exercises.map {
+                TemplateExercise(
+                    exerciseName: $0.exerciseName,
+                    sets: $0.sets,
+                    reps: $0.reps,
+                    weight: $0.weight,
+                    durationSeconds: $0.durationSeconds,
+                    trackingMode: $0.trackingMode,
+                    rir: $0.rir,
+                    restSeconds: $0.restSeconds,
+                    notes: $0.notes
+                )
+            }
+        )
+    }
+
+    func completionCopy(date: Date = .now) -> WorkoutSession {
+        WorkoutSession(
+            date: date,
+            name: name,
+            notes: notes,
+            exercises: exercises.map {
+                WorkoutExercise(
+                    exerciseName: $0.exerciseName,
+                    sets: $0.sets,
+                    reps: $0.reps,
+                    weight: $0.weight,
+                    durationSeconds: $0.durationSeconds,
+                    trackingMode: $0.trackingMode,
+                    rir: $0.rir,
+                    restSeconds: $0.restSeconds,
+                    notes: $0.notes
+                )
+            }
+        )
     }
 }
 

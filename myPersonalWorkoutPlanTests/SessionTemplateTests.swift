@@ -35,4 +35,51 @@ struct SessionTemplateTests {
         #expect(copiedExercise.restSeconds == 120)
         #expect(copiedExercise.trackingMode == .weight)
     }
+
+    @Test
+    func workoutSessionCanBeMappedToTemplate() {
+        let session = WorkoutSession(
+            name: "Conditioning",
+            notes: "Intervals",
+            exercises: [
+                WorkoutExercise(
+                    exerciseName: "Bike",
+                    sets: 5,
+                    reps: 1,
+                    weight: 0,
+                    durationSeconds: 60,
+                    trackingMode: .time,
+                    rir: 0,
+                    restSeconds: 30,
+                    notes: "Hard pace"
+                )
+            ]
+        )
+
+        let template = session.asTemplate()
+
+        #expect(template.name == "Conditioning")
+        #expect(template.notes == "Intervals")
+        #expect(template.exercises.count == 1)
+        #expect(template.exercises[0].trackingMode == .time)
+        #expect(template.exercises[0].durationSeconds == 60)
+    }
+
+    @Test
+    func completionCopyCreatesSeparateSessionInstance() {
+        let original = WorkoutSession(
+            name: "Leg Day",
+            notes: "Heavy",
+            exercises: [
+                WorkoutExercise(exerciseName: "Squat", sets: 3, reps: 5, weight: 100)
+            ]
+        )
+
+        let copied = original.completionCopy()
+
+        #expect(copied !== original)
+        #expect(copied.name == original.name)
+        #expect(copied.exercises.count == original.exercises.count)
+        #expect(copied.exercises[0] !== original.exercises[0])
+    }
 }

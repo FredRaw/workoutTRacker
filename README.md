@@ -1,68 +1,79 @@
 # Workout Tracker
 
-Workout Tracker is an iOS SwiftUI app for planning and logging strength and recovery sessions.
+Workout Tracker is an iOS SwiftUI app for planning, performing, and reviewing strength and recovery training sessions.
 
-## Features
+## Current Features
 
-- Weekly plan view with current week number.
-- Session creation options:
+- Weekly plan with:
+  - Current week number
+  - Sunday -> Saturday ordering
+  - Expand/collapse per day
+  - Collapsed preview and expanded management view
+  - Remove planned sessions from expanded day view
+  - Completed sessions marked as completed and blocked from restarting
+- Session creation flow:
+  - Pick from Session Library
   - Create new strength session
-  - Create recovery session
-  - Choose from session library
-- Session library templates for reusing workouts.
-- Exercise-level tracking:
-  - Sets and reps
-  - Weight (kg)
-  - Time counter (seconds)
-  - Tracking mode: Weight, Time, or Both
-  - RIR
-  - Rest timer (seconds)
-- Insight view with:
+  - Create new recovery session
+  - Name/notes/date for session
+  - Save to library toggle
+  - Exercise reordering (move up/down before save)
+- Exercise setup:
+  - Tracking mode: Weight, Time, Both
+  - Weight input with kg helper text
+  - Time counter with 1-second increments
+  - Reps shown only for Weight mode
+  - Sets, RIR, and adjustable rest timer
+  - Exercise notes/comments
+- Started session flow:
+  - Session started view with live duration
+  - Expand exercise rows to perform sets
+  - Time-based sets use set timer, then auto-start rest timer
+  - Manual set completion for non-time exercises
+  - Stop active timers
+  - Exercise auto-completion state (grayed out when done)
+  - Session complete action when all exercises are completed
+  - Completion timestamp and duration persisted
+- Insight view:
   - Personal records
-  - Progress chart
-  - Overview stats
-  - Workout history
+  - Progress
+  - Overview
+  - Workout history including completed sessions
+
+## Architecture Notes
+
+- SwiftData models in `Item.swift`
+- Weekly planning domain in `WeeklyPlan.swift`
+- Analytics logic in `WorkoutAnalytics.swift`
+- Session execution state logic extracted to `SessionRunner.swift`
+- SwiftUI views split by feature (`ContentView`, `AddSessionView`, `StartedSessionView`, `InsightView`, weekly plan section views)
 
 ## Tech Stack
 
 - SwiftUI
 - SwiftData
 - Charts
-- Testing framework
-
-## Project Structure
-
-- `myPersonalWorkoutPlan/ContentView.swift`: Main screen, weekly plan, add-session flow.
-- `myPersonalWorkoutPlan/InsightView.swift`: Insights and workout history.
-- `myPersonalWorkoutPlan/Item.swift`: SwiftData models (`WorkoutSession`, `WorkoutExercise`, templates).
-- `myPersonalWorkoutPlan/WeeklyPlan.swift`: Weekly plan domain models and defaults.
-- `myPersonalWorkoutPlan/WorkoutAnalytics.swift`: Analytics/query logic used by Insight.
-- `myPersonalWorkoutPlanTests/`: Unit tests.
+- Apple Testing framework (`import Testing`)
 
 ## Requirements
 
-- Xcode 15+
-- iOS 17+
+- Xcode 16+
+- iOS 18+ deployment target (check project settings if changed)
 
-## Run
+## Run Locally
 
 1. Open `myPersonalWorkoutPlan.xcodeproj` in Xcode.
 2. Select the `myPersonalWorkoutPlan` scheme.
-3. Build and run on a simulator or device.
+3. Build and run on simulator or device.
 
-## Tests
-
-Current tests are located in:
+## Test Files
 
 - `myPersonalWorkoutPlanTests/WorkoutAnalyticsTests.swift`
 - `myPersonalWorkoutPlanTests/SessionTemplateTests.swift`
+- `myPersonalWorkoutPlanTests/SessionRunnerTests.swift`
 
-If tests do not appear in the test navigator, ensure the test files are part of a test target and included in the active test plan.
+Note: if Xcode reports `0 tests`, verify test target membership and active test plan configuration.
 
-## Data Storage
+## Data Persistence
 
-Data is persisted locally using SwiftData.
-
-## License
-
-No license file is currently included.
+All sessions and related entities are stored locally using SwiftData.
